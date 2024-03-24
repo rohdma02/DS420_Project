@@ -65,7 +65,7 @@ def split_creditcard_data(data, ratios):
 
     # Shuffle data
 
-    randomized_data = data.sample(frac = 1)
+    randomized_data = data.sample(frac = 1, random_state=1)
 
 
     if 'id' in randomized_data.columns:
