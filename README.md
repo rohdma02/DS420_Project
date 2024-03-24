@@ -1,9 +1,9 @@
 To Do:
 * Analyze Algorithms
 
-Mughees : KNeighborsClassifier
-Mateus : RandomForestClassifier
-Cody : DecisionTreeClassifier
+Mughees : KNeighborsClassifier <br>
+Mateus : RandomForestClassifier <br>
+Cody : DecisionTreeClassifier <br>
 
 * Compare Algorithms
 
