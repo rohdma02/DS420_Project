@@ -1,4 +1,4 @@
-# Mirror file for importing pipeline into other files
+# Manually maintained mirror file for importing pipeline into other files
 
 from pathlib import Path
 
@@ -16,6 +16,8 @@ from sklearn.impute import SimpleImputer
 
 def load_creditcard_data():
 
+    # TODO: Automate dataset download
+
     # filepath = Path("datasets/creditcard_2023.csv") 
     # if not filepath.is_file():
     #     Path("datasets").mkdir(parents=True, exist_ok=True)
@@ -27,7 +29,8 @@ def load_creditcard_data():
     return pd.read_csv("creditcard_2023.csv").drop(['id'], axis=1)
 
 
-def create_pipeline():
+
+def create_creditcard_pipeline():
 
     features = ['V1', 'V2', 'V3', 'V4', 'V5', 'V6', 'V7', 'V8', 'V9', 'V10',
                 'V11', 'V12', 'V13', 'V14', 'V15', 'V16', 'V17', 'V18', 'V19',
@@ -56,19 +59,53 @@ def create_pipeline():
     return pipeline
 
 
-def prepare_creditcard_data():
 
-    # Main
+
+def split_creditcard_data(data, ratios):
+
+    # Shuffle data
+
+    randomized_data = data.sample(frac = 1)
+
+
+    if 'id' in randomized_data.columns:
+
+        randomized_data = randomized_data.drop(['id'], axis=1)
+
+
+    X = randomized_data.drop(['Class'], axis=1)
+    y = randomized_data['Class']
+
+    
+    # Get ratios from tuple
+    dev_ratio = ratios[0]
+    test_ratio = ratios[1]
+    
+    # Determine size of sets using given ratios
+    devset_size = int(dev_ratio * X.shape[0])
+    testset_size = int(test_ratio * X.shape[0])
+    
+    
+    # Take data points up to number needed for devset as training set
+    X_train = X[:-(devset_size+testset_size)]
+    y_train = y[:-(devset_size+testset_size)]
+    
+    
+    # Take devset_size data points before testset_size data points for dev set
+    X_dev = X[-(devset_size+testset_size):-testset_size]
+    y_dev = y[-(devset_size+testset_size):-testset_size]
+    
+    
+    #Take last testset_size data points as test set
+    X_test = X[-testset_size:]
+    y_test = y[-testset_size:]
+    
+
+    return X_train, X_dev, X_test, y_train, y_dev, y_test
+
+
+def prepare_creditcard_data(ratios):
 
     creditcard_data = load_creditcard_data()
     
-
-    X = creditcard_data.drop(['Class'], axis=1)
-    y = creditcard_data['Class']
-
-    
-    # pipeline = create_pipeline()
-    
-    # pipeline.fit(X,y)
-
-    return X, y
+    return split_creditcard_data(creditcard_data, ratios)
