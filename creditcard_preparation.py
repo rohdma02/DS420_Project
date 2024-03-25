@@ -1,6 +1,10 @@
-# Manually maintained mirror file for importing pipeline into other files
+# Preparing Data
 
-from pathlib import Path
+# Authors: Cody, Mateus, and Mughees
+# Step 2: Data Preparation
+
+
+# Manually maintained mirror file for importing pipeline into other files
 
 import pandas as pd
 

@@ -7,7 +7,6 @@ Cody : DecisionTreeClassifier <br>
 
 * Compare Algorithms
 * Clarify contributions at beginning of files (see DTC file style)
-* Clarify where steps occur in files
 * Add more comments to code
 
 
