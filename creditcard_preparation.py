@@ -14,23 +14,34 @@ from sklearn.compose import ColumnTransformer
 from sklearn.impute import SimpleImputer
 
 
+import ssl
+
+# may be needed to retrieve data
+ssl._create_default_https_context = ssl._create_unverified_context
+
+
 
 
 # Step 2; based on housing_transformer_pipeline file
 
 def load_creditcard_data():
-
-    # TODO: Automate dataset download
-
-    # filepath = Path("datasets/creditcard_2023.csv") 
-    # if not filepath.is_file():
-    #     Path("datasets").mkdir(parents=True, exist_ok=True)
-    #     url = "https://github.com/ageron/data/raw/main/housing.tgz" 
-    #     urllib.request.urlretrieve(url, filepath)
-    #     with tarfile.open(tarball_path) as housing_tarball:
-    #         housing_tarball.extractall(path="datasets") 
-
-    return pd.read_csv("creditcard_2023.csv").drop(['id'], axis=1)
+    
+    base_file = "https://github.com/rohdma02/DS420_Project/blob/main/data/creditcard_2023_1.csv?raw=True"
+    
+    additional_files = ["https://github.com/rohdma02/DS420_Project/blob/main/data/creditcard_2023_2.csv?raw=True",
+             "https://github.com/rohdma02/DS420_Project/blob/main/data/creditcard_2023_3.csv?raw=True",
+             "https://github.com/rohdma02/DS420_Project/blob/main/data/creditcard_2023_4.csv?raw=True"]
+    
+    df = pd.read_csv(base_file)
+    
+    for url in additional_files:
+        
+        more_rows = pd.read_csv(url)
+        
+        df = pd.concat([df, more_rows])
+        
+        
+    return df.drop(['id'], axis=1)
 
 
 
