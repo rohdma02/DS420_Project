@@ -24,7 +24,7 @@ ssl._create_default_https_context = ssl._create_unverified_context
 
 # Step 2; based on housing_transformer_pipeline file
 
-def load_creditcard_data():
+def load_creditcard_data(drop_id = True):
     
     base_file = "https://github.com/rohdma02/DS420_Project/blob/main/data/creditcard_2023_1.csv?raw=True"
     
@@ -40,8 +40,10 @@ def load_creditcard_data():
         
         df = pd.concat([df, more_rows])
         
-        
-    return df.drop(['id'], axis=1)
+    if drop_id:
+        return df.drop(['id'], axis=1)
+    else:
+        return df
 
 
 
